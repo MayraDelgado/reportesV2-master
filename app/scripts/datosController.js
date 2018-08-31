@@ -16,8 +16,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
         jsonp: true
     });
     api.call("Get", {
-        "typeName": "Device",
-        "resultsLimit": 1000
+        "typeName": "Device"
     }, function (result) {
         $scope.lstDeviceGeotab = result;
         $scope.lstDeviceGeotab.forEach(function (device) {
