@@ -408,7 +408,7 @@
                     <br>
                     <center>
                       <div><label class="geotabOptionsMenuElementLabel md-part-5 sm-part-12">{{name}}</label>
-                        <div class="geotabOptionsMenuElementValue relative md-part-7 sm-part-12">
+                        <div class="geotabOptionsMenuElementValue relative md-part-10 sm-part-12">
                           <span class="optionsMenu_filterContainer full-size org-filter">
                             <input class="inputBox checkmateFormEditField" type="text" placeholder="Buscar {{name}}"
                               ng-model="search.name">
@@ -446,14 +446,15 @@
                             selección</button>
                         </div>
                         <p class="filterSelectionInformation">
-                          Seleccionados:
+                          <br><br><br><br>
+                          <h4 style="color:rgb(11, 31, 68)">Seleccionados:</h4>
                           <span class="optionsMenu_filterselecteditems" ng-if="selecteditems.length !== lstDeviceGeotab.length">
                             <span ng-repeat="d in selecteditems | limitTo: 100 track by $index">{{d.name}}<span ng-if="!$last">,</span>
                             </span>
                           </span><span ng-if="selecteditems.length > 100 && selecteditems.length !== lstDeviceGeotab.length">{{selecteditems.length
                             > 100 ? '...' : ''}}</span>
-                          <span class="optionsMenu_filterselecteditems" ng-if="selecteditems.length === lstDeviceGeotab.length || selecteditems.length === 0">{{selecteditems.length
-                            === lstDeviceGeotab.length ? 'Todo' : 'Nada' }}</span>
+                          <h4 style="color:rgb(13, 39, 87)" class="optionsMenu_filterselecteditems" ng-if="selecteditems.length === lstDeviceGeotab.length || selecteditems.length === 0">{{selecteditems.length
+                            === lstDeviceGeotab.length ? 'Todo' : 'Nada' }}</h4>
                         </p>
                       </div>
                     </center>
