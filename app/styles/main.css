@@ -272,3 +272,11 @@ md-select-menu-container {
     background: #ff4612;
     color: #fff;
 }
+.dtp .dtp-hand.on {
+    background: #ff4612;
+}
+
+.dtp .dtp-picker-time>a.dtp-select-hour.selected {
+    background: #ff4612;
+    color: #fff;
+}
