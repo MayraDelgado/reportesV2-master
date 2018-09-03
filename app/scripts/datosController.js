@@ -225,12 +225,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                 var btnCirculo8 = results[6].filter(function (circulo8) {
                     return circulo8.data === 1
                 }).length;
-                if (totalEventos.length === undefined) {
-                    swal({
-                        type: 'error',
-                        text: 'No existen registros en el rango de fechas seleccionado'
-                    });
-                }
+               
                 var conAjax = $http.post("https://cppa.metricamovil.com/PMFReports/DeviceReport", JSON.stringify({
                     devices: [deviceId],
                     start: moment($scope.Data.start).add('hours', 5).format('YYYY-MM-DD HH:mm:ss'),
@@ -251,12 +246,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                     totalEventos.paroMotor = $scope.resultApi[0].Out2;
                     $scope.eventos.push(totalEventos);
                     //$scope.$apply();
-                    if ($scope.resultApi.length === 0) {
-                        swal({
-                            type: 'error',
-                            text: 'No existen registros en el rango de fechas seleccionado'
-                        });
-                    }
+                    
                 }, function errorCallback(response) {
                     console.log(response);
                 })
