@@ -5,7 +5,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
     var authenticationCallback1;
     api = GeotabApi(function (autenticacionCallback) {
         authenticationCallback1 = autenticacionCallback;
-        authenticationCallback1('my332.geotab.com', 'pepsico_mexico', 'mayra.delgado@metricamovil.com', 'Amoalverde12$.',
+        authenticationCallback1('my332.geotab.com', 'pepsico_mexico', 'mayra.delgado@metricamovil.com', 'Amoalverde12$',
             function (errorString) {
                 //alert(errorString);
                 swal({
