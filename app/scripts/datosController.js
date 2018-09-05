@@ -353,10 +353,13 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
             /*$("#fechaDevice").table2excel({
                 filename: "AuditoríadeRegistros_Dispositivos"
             });*/
-            Exporter.export(fechaDevice, 'AuditoriaRegistros_Dispositivo.xls', 'Descarga');
-            return false;
+            Exporter.export(fechaDevice, 'Registros_Dispositivos.xls', 'Data');
+            //return false;
         }
-
+    refresh();
+    }
+    function refresh(){
+        location.reload(true);
     }
 
     $scope.getCalls = function (deviceId) {
