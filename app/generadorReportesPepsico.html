@@ -105,7 +105,7 @@
         <br>
         <br>
         <!--Panel consulta por fechas de instalacion-->
-        <md-expansion-panel md-component-id="panelOne" disabled="true">
+        <!--md-expansion-panel md-component-id="panelOne" disabled="true">
           <md-expansion-panel-collapsed>
             <div class="md-summary" style="color:rgb(37, 71, 123)">
               <font size="3">CONSULTA POR FECHA</font>
@@ -122,7 +122,7 @@
             <md-expansion-panel-content>
               <!--radioButton consulta fechas -->
               <!--fecha inicio-->
-              <div layout="row" layout-xs="column">
+              <!--div layout="row" layout-xs="column">
                 <div flex>
                   <div flex-gt-sm="50">
                     <md-input-container class="md-block">
@@ -157,13 +157,13 @@
                       </div>
                     </div>
                     <!--btn consulta-->
-                    <acronym title="">
+                    <!--acronym title="">
                       <button class="optionsMenu_AutocompleteButton geotabButton" ng-click="consultaVehiculos()">
                         <span class="md-caption">Consultar</span>
                       </button>
                     </acronym>
                     <!-- fin btn consulta-->
-                  </div>
+                  <!--/div>
                 </div>
                 <div flex>
                   <div flex-gt-sm="50">
@@ -180,7 +180,7 @@
                           <div layout-gt-xs="row">
                             <div class="form-group">
                               <!--input type="file" id="files" class="form-control" required /-->
-                              <div id="drop_zone" class="upload-drop-zone" required> Suelta los archivos aquí.</div>
+                              <!--div id="drop_zone" class="upload-drop-zone" required> Suelta los archivos aquí.</div>
                               <output id="list"></output>
                               <script>
                                 function handleFileSelect(evt) {
@@ -264,7 +264,7 @@
                         </md-content>
                       </div>
                     </div-->
-                    <acronym title="">
+                    <!--acronym title="">
                       <js-xls onread="read" onerror="error"></js-xls>
                       <button type="submit" id="submit-file" class="optionsMenu_AutocompleteButton geotabButton"
                         ng-click="papaParse()">
@@ -279,7 +279,7 @@
                       </button>
                     </acronym>
                     <!--fin fechas fin-->
-                  </div>
+                  <!--/div>
                   <!--div layout="row" layout-xs="column" ng-show="checked1" id="muestraExcel">
                     <div class="container">
                       <div layout-gt-xs="row">
@@ -306,12 +306,12 @@
                       </div>
                     </div>
                   </div-->
-                </div>
+                <!--/div>
               </div>
             </md-expansion-panel-content>
             <!-- fin radioButton consulta excel -->
             <!--boton consultar-->
-            <md-expansion-panel-footer>
+            <!--md-expansion-panel-footer>
               <div flex="100">
                 <acronym title="Exportar Tabla">
                   <md-button class="optionsMenu_AutocompleteButton geotabButton" ng-click="crearCSVFechas()">
@@ -319,18 +319,18 @@
                   </md-button>
                 </acronym>
               </div>
-            </md-expansion-panel-footer>
+            </md-expansion-panel-footer-->
             <!--fin btn consultar-->
-            <br>
+            <!--br>
             <md-table-container>
               <!--ng-model="selected" esto va en la tabla-->
-              <table md-table md-row-select="options.rowSelection" ng-model="selected" md-progress="promise" id="fechaInstalacion">
+              <!--table md-table md-row-select="options.rowSelection" ng-model="selected" md-progress="promise" id="fechaInstalacion">
                 <thead md-head>
                   <tr md-row class="th-table">
                     <th md-column md-numeric>Id</th>
                     <!--th md-column md-numeric>VIN </th-->
                     <!--th md-column md-numeric>Unidad </th-->
-                    <th md-column md-numeric>Numero de serie</th>
+                    <!--th md-column md-numeric>Numero de serie</th>
                     <th md-column md-numeric>Ultima comunicacion Geotab</th>
                     <th md-column md-numeric>Fecha inicio de consulta</th>
                     <th md-column md-numeric>Fecha fin de consulta</th>
@@ -352,7 +352,7 @@
                     <td md-cell>{{dispositivo.GOId}}</td>
                     <!--td md-cell>{{dispositivo.vehicleIdentificationNumber}}</td-->
                     <!--td>{{lstDevice.name}}</td-->
-                    <td md-cell>{{dispositivo.GOSerialNumber}}</td>
+                    <!--td md-cell>{{dispositivo.GOSerialNumber}}</td>
                     <td md-cell>{{comunicacion.dataTime}}</td>
                     <td md-cell>{{Data.start}}</td>
                     <td md-cell>{{Data.end}}</td>
@@ -376,13 +376,13 @@
               md-page-select></md-table-pagination>
 
             <!--btn cerrar panel-->
-            <md-expansion-panel-footer>
+            <!--md-expansion-panel-footer>
               <div flex></div>
               <md-button class="md-warn " ng-click="$panel.collapse() ">Ocultar</md-button>
             </md-expansion-panel-footer>
             <!--fin btn cerrar panel-->
-          </md-expansion-panel-expanded>
-        </md-expansion-panel>
+          <!--/md-expansion-panel-expanded>
+        </md-expansion-panel-->
         <!--fin consultas por fecha de instalacion-->
         <br>
         <!--inicio panel consulta por vehiculo-->
