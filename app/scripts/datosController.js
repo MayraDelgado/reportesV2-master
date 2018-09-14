@@ -236,7 +236,8 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
     }
 
     $scope.consultaDatos = function(deviceId) {
-        try {
+        return new Promise((resolve, reject) => {
+
 
             var calls = $scope.getCalls(deviceId);
 
@@ -279,25 +280,31 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                     start: moment($scope.Data.start).add('hours', 5).format('YYYY-MM-DD HH:mm:ss'),
                     end: moment($scope.Data.end).add('hours', 5).format('YYYY-MM-DD HH:mm:ss')
                 })).then(function successCallback(response) {
-                    console.log(response);
-                    $scope.resultApi = response.data;
-                    totalEventos.btncirculo8 = btnCirculo8;
-                    totalEventos.comunicacion = results[7][0].dateTime;
+                    try {
+                        $scope.resultApi = response.data;
+                        totalEventos.btncirculo8 = btnCirculo8;
+                        totalEventos.comunicacion = results[7][0].dateTime;
 
-                    totalEventos.ids = deviceId;
-                    totalEventos.serialNumber = vehiculos[deviceId].serialNumber;
-                    totalEventos.vehicleIdentificationNumber = vehiculos[deviceId].vehicleIdentificationNumber;
-                    totalEventos.name = vehiculos[deviceId].name;
-                    totalEventos.idSuntech = $scope.resultApi[0].deviceId;
-                    totalEventos.panicoSuntech = $scope.resultApi[0].panicButtons;
-                    totalEventos.llamadas = $scope.resultApi[0].calls;
-                    totalEventos.paroMotor = $scope.resultApi[0].Out2;
-                    totalEventos.lastComunicacion = $scope.resultApi[0].lastCommunication;
-                    $scope.eventos.push(totalEventos);
-                    //$scope.$apply();
+                        totalEventos.ids = deviceId;
+                        totalEventos.serialNumber = vehiculos[deviceId].serialNumber;
+                        totalEventos.vehicleIdentificationNumber = vehiculos[deviceId].vehicleIdentificationNumber;
+                        totalEventos.name = vehiculos[deviceId].name;
+                        totalEventos.idSuntech = $scope.resultApi[0].deviceId;
+                        totalEventos.panicoSuntech = $scope.resultApi[0].panicButtons;
+                        totalEventos.llamadas = $scope.resultApi[0].calls;
+                        totalEventos.paroMotor = $scope.resultApi[0].Out2;
+                        totalEventos.lastComunicacion = $scope.resultApi[0].lastCommunication;
+                        $scope.eventos.push(totalEventos);
+                        //$scope.$apply();
+                        resolve();
 
+                    } catch (error) {
+                        reject(error);
+                        console.log(error.message);
+                    }
                 }, function errorCallback(response) {
                     console.log(response);
+                    reject(response);
                 })
 
                 /*totalEventos.btncirculo8 = btnCirculo8;
@@ -313,14 +320,13 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
 
 
             }, function(e) {
+                reject(e);
                 console.log(e.message);
             });
-        } catch (error) {
-            console.log(error.message);
-        }
+        });
     }
 
-
+    $scope.bConsulta = false;
     $scope.consultaVehiculos = function() {
         try {
             $scope.dispositivoSeleccionadoAux = this.selecteditems;
@@ -330,18 +336,27 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                     text: 'Debes seleccionar un vehículo para continuar la consulta.'
                 });
             }
-
+            $scope.bConsulta = true;
             if ($scope.dispositivoSeleccionadoAux.length > 0) {
+                var allPromises = [];
 
-                $scope.dispositivoSeleccionadoAux.forEach(function(dispositivo) {
-                    $scope.consultaDatos(dispositivo.id);
-                    swal({
-                        imageUrl: 'https://rawgit.com/MayraDelgado/reportes/master/app/img/cargando5.gif',
-                        timer: 8000,
-                        showConfirmButton: false,
-                        background: 'rgba(100,100,100,0)'
-                    });
+                swal({
+                    imageUrl: 'https://rawgit.com/MayraDelgado/reportes/master/app/img/cargando5.gif',
+                    timer: 8000,
+                    showConfirmButton: false,
+                    background: 'rgba(100,100,100,0)'
                 });
+                $scope.dispositivoSeleccionadoAux.forEach(function(dispositivo) {
+                    allPromises.push($scope.consultaDatos(dispositivo.id));
+
+                });
+                Promise.all(allPromises).then(result => {
+                    $scope.bConsulta = false;
+                    swal("Ok", "Consulta Finalizada", "success");
+                }).catch(err => {
+                    $scope.bConsulta = false;
+                    swal('Error', err, 'error');
+                })
 
             }
 
