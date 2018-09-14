@@ -1,12 +1,12 @@
 var api;
 var app = angular.module('myAplicacion', ['ngMaterial', 'material.components.expansionPanels', 'md.data.table', 'ngMaterialDatePicker', 'angularjs-dropdown-multiselect']);
 
-app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelect', '$window', function ($scope, $filter, $http, $mdSelect, $window) {
+app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelect', '$window', function($scope, $filter, $http, $mdSelect, $window) {
     var authenticationCallback1;
-    api = GeotabApi(function (autenticacionCallback) {
+    api = GeotabApi(function(autenticacionCallback) {
         authenticationCallback1 = autenticacionCallback;
         authenticationCallback1('my332.geotab.com', 'pepsico_mexico', 'mayra.delgado@metricamovil.com', 'Amoalverde12$',
-            function (errorString) {
+            function(errorString) {
                 //alert(errorString);
                 swal({
                     type: "error",
@@ -18,32 +18,80 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
         rememberMe: true,
         jsonp: true
     });
+
+    //evento de soltar csv en el div
+    var dropZone = document.getElementById('dropZone');
+
+    // Optional.   Show the copy icon when dragging over.  Seems to only work for chrome.
+    dropZone.addEventListener('dragover', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'copy';
+    });
+
+    // Get file data on drop
+    dropZone.addEventListener('drop', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        var files = e.dataTransfer.files;
+        var i, f;
+        $scope.selecteditems = [];
+        $scope.tipoBusqueda = 1;
+        $scope.$apply();
+        for (i = 0; i != files.length; ++i) {
+            f = files[i];
+            var reader = new FileReader();
+            var name = f.name;
+            reader.onload = function(e) {
+
+                var data = e.target.result;
+                //ahora recorremos el arreglo de ids para buscar las unidades y asignarlas a los seleccionados
+                data.split(',').forEach(function(item) {
+                    var currentResult = $scope.lstDeviceGeotab.find(function(element) {
+                        return element.id == item;
+                    });
+
+                    if (currentResult != undefined) {
+                        currentResult.checked = true;
+                        $scope.selecteditems.push(currentResult);
+                    }
+
+                });
+                alert("se cargo el archivo correctamente");
+            };
+            //reader.readAsBinaryString(f);
+            reader.readAsText(f);
+        }
+    });
+    //-----------------------------------------------
+
     api.call("Get", {
         "typeName": "Device"
-    }, function (result) {
+    }, function(result) {
         $scope.lstDeviceGeotab = result;
-        $scope.lstDeviceGeotab.forEach(function (device) {
+        $scope.lstDeviceGeotab.forEach(function(device) {
             vehiculos[device.id] = device;
             $scope.lstDevice.id = device.id;
         });
         $scope.$apply();
-    }, function (e) {
+    }, function(e) {
         console.error("Failed:", e.message);
     });
 
+    $scope.tipoBusqueda = 2;
     //Componente select devices
     $scope.showList = false;
     $scope.listHeight = 100;
     $scope.allSelected = false;
     $scope.displayedItems = 25;
     $scope.selecteditems = [];
-    $scope.loadMore = function () {
+    $scope.loadMore = function() {
         $scope.displayedItems += 25;
     };
-    $('#list').on('scroll', function (e) {
+    $('#list').on('scroll', function(e) {
         var nav = $('.entityNavigator');
         if (e.target.scrollTop + e.target.offsetHeight > nav.height()) {
-            if ($scope.displayedItems < $scope.items.length) {
+            if ($scope.displayedItems < $scope.lstDeviceGeotab.length) {
                 $scope.displayedItems += 25;
             }
             $scope.$apply();
@@ -51,17 +99,17 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
 
     });
 
-    $scope.show = function ($event) {
+    $scope.show = function($event) {
         $scope.showList = !$scope.showList;
         var position = $event.target.getBoundingClientRect();
         $scope.listHeight = $(window).height() - (position.top + 20 + 20);
     };
 
-    $scope.close = function () {
+    $scope.close = function() {
         $scope.showList = false;
     };
 
-    $scope.select = function (item) {
+    $scope.select = function(item) {
         if (item.checked === true) {
             $scope.selecteditems.push(item);
         } else {
@@ -74,7 +122,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
         }
     };
 
-    $scope.selectAll = function () {
+    $scope.selectAll = function() {
         $scope.allSelected = !$scope.allSelected;
         for (var i = 0; i < $scope.lstDeviceGeotab.length; i++) {
             $scope.lstDeviceGeotab[i].checked = $scope.allSelected;
@@ -86,7 +134,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
         }
     };
 
-    $scope.unSelectAll = function () {
+    $scope.unSelectAll = function() {
         $scope.allSelected = false;
         for (var i = 0; i < $scope.lstDeviceGeotab.length; i++) {
             $scope.lstDeviceGeotab[i].checked = $scope.allSelected;
@@ -136,7 +184,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
         limit: 5,
         page: 1
     };
-    $scope.logPagination = function (page, limit) {
+    $scope.logPagination = function(page, limit) {
         console.log('page: ', page);
         console.log('limit: ', limit);
     }
@@ -147,7 +195,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
         e.stopPropagation();
     };
 
-    $scope.getDevice = function (device) {
+    $scope.getDevice = function(device) {
         try {
             $scope.dispositivoSeleccionado = device;
             $scope.$apply();
@@ -156,7 +204,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
             console.log(error.message);
         }
     }
-    $scope.fechasreport = function () {
+    $scope.fechasreport = function() {
 
         // $scope.dispositivoSeleccionado = $scope.lstDeviceGeotab;
 
@@ -187,45 +235,45 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
         });
     }
 
-    $scope.consultaDatos = function (deviceId) {
+    $scope.consultaDatos = function(deviceId) {
         try {
 
             var calls = $scope.getCalls(deviceId);
 
             //api call
-            api.multiCall(calls, function (results) {
+            api.multiCall(calls, function(results) {
                 console.log(results);
 
                 var totalEventos = {};
 
-                var btnPanico = results[0].filter(function (panico) {
+                var btnPanico = results[0].filter(function(panico) {
                     return panico.data === 1
                 }).length;
                 totalEventos.btnPanico = btnPanico;
-                var btnCinturon = results[1].filter(function (cinturon) {
+                var btnCinturon = results[1].filter(function(cinturon) {
                     return cinturon.data === 1
                 }).length;
                 totalEventos.btncinturon = btnCinturon;
-                var btnReversa = results[2].filter(function (reversa) {
+                var btnReversa = results[2].filter(function(reversa) {
                     return reversa.data === 1
                 }).length;
                 totalEventos.btnReversa = btnReversa;
-                var btnCirculo5 = results[3].filter(function (circulo5) {
+                var btnCirculo5 = results[3].filter(function(circulo5) {
                     return circulo5.data === 1
                 }).length;
                 totalEventos.btnCirculo5 = btnCirculo5;
-                var btnCirculo6 = results[4].filter(function (circulo6) {
+                var btnCirculo6 = results[4].filter(function(circulo6) {
                     return circulo6.data === 1
                 }).length;
                 totalEventos.btncirculo6 = btnCirculo6;
-                var btnCirculo7 = results[5].filter(function (circulo7) {
+                var btnCirculo7 = results[5].filter(function(circulo7) {
                     return circulo7.data === 1
                 }).length;
                 totalEventos.btncirculo7 = btnCirculo7;
-                var btnCirculo8 = results[6].filter(function (circulo8) {
+                var btnCirculo8 = results[6].filter(function(circulo8) {
                     return circulo8.data === 1
                 }).length;
-               
+
                 var conAjax = $http.post("https://cppa.metricamovil.com/PMFReports/DeviceReport", JSON.stringify({
                     devices: [deviceId],
                     start: moment($scope.Data.start).add('hours', 5).format('YYYY-MM-DD HH:mm:ss'),
@@ -243,11 +291,11 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                     totalEventos.idSuntech = $scope.resultApi[0].deviceId;
                     totalEventos.panicoSuntech = $scope.resultApi[0].panicButtons;
                     totalEventos.llamadas = $scope.resultApi[0].calls;
-                    totalEventos.paroMotor = $scope.resultApi[0].Out2;                    
+                    totalEventos.paroMotor = $scope.resultApi[0].Out2;
                     totalEventos.lastComunicacion = $scope.resultApi[0].lastCommunication;
                     $scope.eventos.push(totalEventos);
                     //$scope.$apply();
-                    
+
                 }, function errorCallback(response) {
                     console.log(response);
                 })
@@ -264,7 +312,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
 
 
 
-            }, function (e) {
+            }, function(e) {
                 console.log(e.message);
             });
         } catch (error) {
@@ -273,7 +321,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
     }
 
 
-    $scope.consultaVehiculos = function () {
+    $scope.consultaVehiculos = function() {
         try {
             $scope.dispositivoSeleccionadoAux = this.selecteditems;
             if ($scope.dispositivoSeleccionadoAux.length === 0) {
@@ -285,7 +333,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
 
             if ($scope.dispositivoSeleccionadoAux.length > 0) {
 
-                $scope.dispositivoSeleccionadoAux.forEach(function (dispositivo) {
+                $scope.dispositivoSeleccionadoAux.forEach(function(dispositivo) {
                     $scope.consultaDatos(dispositivo.id);
                     swal({
                         imageUrl: 'https://rawgit.com/MayraDelgado/reportes/master/app/img/cargando5.gif',
@@ -325,7 +373,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
      }*/
 
 
-    $scope.crearCSVFechas = function () {
+    $scope.crearCSVFechas = function() {
         if ($scope.resultReporteFechas.length === 0) {
             swal(
                 '',
@@ -341,7 +389,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
         }
 
     }
-    $scope.crearCSVvehiculo = function () {
+    $scope.crearCSVvehiculo = function() {
         if ($scope.eventos.length === 0) {
             swal(
                 '',
@@ -356,15 +404,16 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
             });*/
             Exporter.export(fechaDevice, 'Registros_Dispositivos.xls', 'Data');
             //return false;
-             refresh();
+            refresh();
         }
-   
+
     }
-    function refresh(){
+
+    function refresh() {
         location.reload(true);
     }
 
-    $scope.getCalls = function (deviceId) {
+    $scope.getCalls = function(deviceId) {
         try {
             var ids = [
                 "diagnosticAux1Id",
@@ -377,7 +426,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
             ];
             var calls = [];
 
-            ids.forEach(function (id) {
+            ids.forEach(function(id) {
                 calls.push(
                     ["Get", {
                         "typeName": "StatusData",
@@ -410,8 +459,8 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
         }
     }
 }]);
-app.config(function ($mdDateLocaleProvider) {
-    $mdDateLocaleProvider.formatDate = function (date) {
+app.config(function($mdDateLocaleProvider) {
+    $mdDateLocaleProvider.formatDate = function(date) {
         return moment(date).format('MM-DD-YYYY');
     }
 });
