@@ -320,7 +320,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
 
 
             }, function(e) {
-                reject(e);
+                //reject(e);
                 console.log(e.message);
             });
         });
