@@ -416,12 +416,16 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
     }
     $scope.crearCSVvehiculo = function() {
         if ($scope.eventos.length === 0) {
-            swal(
-                '',
-                'No hay datos que descargar',
-                "error",
-            )
-            console.log("No hay datos que descargar");
+             const toast = swal.mixin({
+                toast: true,
+                position: 'center',
+                showConfirmButton: false,
+                timer: 5000
+            });
+            toast({
+                type: 'error',
+                title: 'Sin datos que descargar.'
+            });
         } else
         if ($scope.eventos.length > 0) {
             const toast = swal.mixin({
