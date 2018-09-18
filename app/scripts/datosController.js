@@ -414,9 +414,16 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
             console.log("No hay datos que descargar");
         } else
         if ($scope.eventos.length > 0) {
-            /*$("#fechaDevice").table2excel({
-                filename: "AuditoríadeRegistros_Dispositivos"
-            });*/
+            const toast = swal.mixin({
+                toast: true,
+                position: 'center',
+                showConfirmButton: false,
+                timer: 3000
+            });
+            toast({
+                type: 'success',
+                title: 'Descarga finalizada.'
+            });
             Exporter.export(fechaDevice, 'Registros_Dispositivos.xls', 'Data');
             //return false;
             refresh();
