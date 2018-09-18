@@ -450,7 +450,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
             });
             Exporter.export(fechaDevice, 'Registros_Dispositivos.xls', 'Data');
             //return false;
-            refresh();
+            //refresh();
         }
 
     }
