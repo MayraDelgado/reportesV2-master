@@ -331,9 +331,15 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
         try {
             $scope.dispositivoSeleccionadoAux = this.selecteditems;
             if ($scope.dispositivoSeleccionadoAux.length === 0) {
-                swal({
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'center',
+                    showConfirmButton: false,
+                    timer: 5000
+                });
+                toast({
                     type: 'error',
-                    text: 'Debes seleccionar un vehículo para continuar la consulta.'
+                    title: 'Selecciona vehículos para continuar la consulta.'
                 });
             }
             $scope.bConsulta = true;
@@ -390,12 +396,16 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
 
     $scope.crearCSVFechas = function() {
         if ($scope.resultReporteFechas.length === 0) {
-            swal(
-                '',
-                'No hay datos que descargar',
-                "error",
-            )
-            console.log("No hay datos que descargar");
+           const toast = swal.mixin({
+                toast: true,
+                position: 'center',
+                showConfirmButton: false,
+                timer: 5000
+            });
+            toast({
+                type: 'error',
+                title: 'Sin datos que descargar.'
+            });
         } else
         if ($scope.resultReporteFechas.length > 0) {
             $("#fechaInstalacion").table2excel({
