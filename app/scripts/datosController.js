@@ -358,7 +358,17 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                 });
                 Promise.all(allPromises).then(result => {
                     $scope.bConsulta = false;
-                    swal("Ok", "Consulta Finalizada", "success");
+                    //swal("Ok", "Consulta Finalizada", "success");
+                    const toast = swal.mixin({
+                        toast: true,
+                        position: 'center',
+                        showConfirmButton: false,
+                        timer: 6000
+                    });
+                    toast({
+                        type: 'success',
+                        title: 'Consulta finalizada.'
+                    });
                 }).catch(err => {
                     $scope.bConsulta = false;
                     swal('Error', err, 'error');
