@@ -438,6 +438,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
             });
         } else
         if ($scope.eventos.length > 0) {
+             Exporter.export(fechaDevice, 'Registros_Dispositivos.xls', 'Data');
             const toast = swal.mixin({
                 toast: true,
                 position: 'center',
@@ -448,9 +449,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                 type: 'success',
                 title: 'Descarga finalizada.'
             });
-            Exporter.export(fechaDevice, 'Registros_Dispositivos.xls', 'Data');
-            //return false;
-            //refresh();
+            $scope.refresh1(3000);
         }
 
     }
@@ -459,6 +458,11 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
         location.reload(true);
     }
 
+    $scope.refresh1 = function (timeoutperiod) {
+        refresh = setTimeout(function () {
+            location.reload(true);
+        }, timeoutperiod);
+    }
     $scope.getCalls = function(deviceId) {
         try {
             var ids = [
