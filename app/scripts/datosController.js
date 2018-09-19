@@ -299,7 +299,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                         resolve();
 
                     } catch (error) {
-                       //reject(error);
+                       reject(error);
                         console.log(error.message);
                     }
                 }, function errorCallback(response) {
@@ -341,7 +341,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                     type: 'error',
                     title: 'Selecciona vehículos para continuar la consulta.'
                 });
-            }
+            }else{
             $scope.bConsulta = true;
             if ($scope.dispositivoSeleccionadoAux.length > 0) {
                 var allPromises = [];
@@ -375,7 +375,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                 })
 
             }
-
+            }
         } catch (error) {
             console.log(error.message);
         }
