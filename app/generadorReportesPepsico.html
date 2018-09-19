@@ -529,6 +529,10 @@
                 <tr md-row>
                   <th md-column md-numeric style="color:rgb(37, 71, 123)">Económico </th>
                   <th md-column md-numeric style="color:rgb(37, 71, 123)">IMEI cut</th>
+                  <th md-column md-numeric style="color: rgb(37, 71, 123)">IMEI</th>
+                  <th md-column md-numeric style="color:rgb(37, 71, 123)">Latitud</th>
+                  <th md-column md-numeric style="color: rgb(37, 71, 123)">Longitud</th>
+                  <th md-column md-numeric style="color: rgb(37, 71, 123)">Telefono Suntech</th>
                   <th md-column md-numeric style="color:rgb(37, 71, 123)">VIN </th>
                   <th md-column md-numeric style="color:rgb(37, 71, 123)">Botón de pánico</th>
                   <th md-column md-numeric style="color:rgb(37, 71, 123)">Paro de motor</th>
@@ -542,18 +546,22 @@
                   <th md-column md-numeric style="color:rgb(37, 71, 123)">SC B3</th>
                   <th md-column md-numeric style="color:rgb(37, 71, 123)">SC B4</th>
                   <th md-column md-numeric style="color:rgb(37, 71, 123)">Comunicación GO</th>
+                  <th md-column md-numeric style="color: rgb(37, 71, 123)">Numero de serie</th>
                   <th md-column md-numeric style="color:rgb(37, 71, 123)">Periodo inicial</th>
                   <th md-column md-numeric style="color:rgb(37, 71, 123)">Periodo de finalización</th>
                   <th md-column md-numeric style="color:rgb(37, 71, 123)">Id Go</th>
-                  <!--th md-column md-numeric style="color:rgb(37, 71, 123)">NUMERO DE SERIE</th-->
-
                 </tr>
               </thead>
 
               <tbody md-body id="resultados">
                 <tr md-row md-select-id="name " md-auto-select ng-repeat="totalEventos in eventos track by $index">
-                  <td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{totalEventos.name}}</td>
+                   <td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{totalEventos.name}}</td>
                   <td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{totalEventos.idSuntech}}</td>
+                  <td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{totalEventos.IMEI}}</td>
+                  <td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{totalEventos.latitude}}</td>
+                  <td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{totalEventos.longitude}}</td>
+
+                  <td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{totalEventos.phoneNumber}}</td>
                   <td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{totalEventos.vehicleIdentificationNumber}}</td>
                   <td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{totalEventos.panicoSuntech}}</td>
                   <td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{totalEventos.paroMotor}}</td>
@@ -568,14 +576,13 @@
                   <td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{totalEventos.btncirculo8}}</td>
                   <td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{totalEventos.comunicacion
                     | date : "yyyy-MM-dd HH:mm:ss"}}</td>
+                  <td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{totalEventos.serialNumber}}</td>
                   <td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{Data.start
                     | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                   <td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{Data.end
                     | date : "yyyy-MM-dd HH:mm:ss"}}</td>
                   <td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{totalEventos.ids}}</td>
-                  <!--td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{totalEventos.serialNumber}}</td-->
-                  <!--td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{totalEventos.panicoSuntech}}</td>
-                        <td md-cell style="border-top:.5pt solid #8EA9DB; border-right: none; border-bottom: .5pt solid #8EA9DB; border-left: none">{{totalEventos.llamadas}}</td-->
+                  
                 </tr>
               </tbody>
             </table>
