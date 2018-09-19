@@ -299,7 +299,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                         resolve();
 
                     } catch (error) {
-                       reject(error);
+                       reject("No hay registros en periodo de fechas", error);
                         console.log(error.message);
                     }
                 }, function errorCallback(response) {
