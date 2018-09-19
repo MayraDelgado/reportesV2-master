@@ -294,16 +294,22 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                         totalEventos.llamadas = $scope.resultApi[0].calls;
                         totalEventos.paroMotor = $scope.resultApi[0].Out2;
                         totalEventos.lastComunicacion = $scope.resultApi[0].lastCommunication;
+                        totalEventos.phoneNumber = $scope.resultApi[0].phoneNumber;
+                        totalEventos.IMEI = $scope.resultApi[0].IMEI;
+                        totalEventos.latitude = $scope.resultApi[0].latitude;
+                        totalEventos.longitude = $scope.resultApi[0].longitude;
                         $scope.eventos.push(totalEventos);
                         //$scope.$apply();
                         resolve();
 
                     } catch (error) {
-                       reject(error);
+                       arrayErrors.push(deviceId);
+                        reject(error);
                         console.log(error.message);
                     }
                 }, function errorCallback(response) {
-                    console.log(response);
+                      console.log(response);
+                    arrayErrors.push(deviceId);
                     reject(response);
                 })
 
@@ -316,19 +322,17 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                 totalEventos.name = vehiculos[deviceId].name;
                 $scope.eventos.push(totalEventos);
                 $scope.$apply();*/
-
-
-
             }, function(e) {
                 //reject(e);
                 console.log(e.message);
             });
         });
     }
-
+    var arrayErrors = [];
     $scope.bConsulta = false;
-    $scope.consultaVehiculos = function() {
+    $scope.consultaVehiculos = function () {
         try {
+            arrayErrors = [];
             $scope.dispositivoSeleccionadoAux = this.selecteditems;
             if ($scope.dispositivoSeleccionadoAux.length === 0) {
                 const toast = swal.mixin({
@@ -339,71 +343,49 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                 });
                 toast({
                     type: 'error',
-                    title: 'Selecciona vehículos para continuar la consulta.'
+                    title: 'Selecciona vehiculos para continuar la consulta.'
                 });
-            }else{
-            $scope.bConsulta = true;
-            if ($scope.dispositivoSeleccionadoAux.length > 0) {
-                var allPromises = [];
+            } else {
 
-                swal({
-                    imageUrl: 'https://rawgit.com/MayraDelgado/reportes/master/app/img/cargando5.gif',
-                    timer: 8000,
-                    showConfirmButton: false,
-                    background: 'rgba(100,100,100,0)'
-                });
-                $scope.dispositivoSeleccionadoAux.forEach(function(dispositivo) {
-                    allPromises.push($scope.consultaDatos(dispositivo.id));
+                $scope.bConsulta = true;
+                if ($scope.dispositivoSeleccionadoAux.length > 0) {
+                    var allPromises = [];
 
-                });
-                Promise.all(allPromises).then(result => {
-                    $scope.bConsulta = false;
-                    //swal("Ok", "Consulta Finalizada", "success");
-                    const toast = swal.mixin({
-                        toast: true,
-                        position: 'center',
+                    swal({
+                        imageUrl: 'https://rawgit.com/MayraDelgado/reportes/master/app/img/cargando5.gif',
+                        timer: 8000,
                         showConfirmButton: false,
-                        timer: 6000
+                        background: 'rgba(100,100,100,0)'
                     });
-                    toast({
-                        type: 'success',
-                        title: 'Consulta finalizada.'
-                    });
-                }).catch(err => {
-                    $scope.bConsulta = false;
-                    swal('Error', err, 'error');
-                })
+                    $scope.dispositivoSeleccionadoAux.forEach(function (dispositivo) {
+                        allPromises.push($scope.consultaDatos(dispositivo.id));
 
-            }
+                    });
+                    Promise.all(allPromises).then(result => {
+                        $scope.bConsulta = false;
+                        const toast = swal.mixin({
+                            toast: true,
+                            position: 'center',
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        toast({
+                            type: 'success',
+                            title: 'Consulta finalizada.'
+                        });
+                    }).catch(err => {
+                        $scope.bConsulta = false;
+                        if (arrayErrors.length > 0) {
+                            swal('Error', 'No se pudieron consultar los siguientes dispositivos: ' + arrayErrors.join(), 'error');
+                        }
+                    })
+
+                }
             }
         } catch (error) {
             console.log(error.message);
         }
     }
-
-    /* $scope.consultaVehiculos = function () {
-         try {
-             $scope.dispositivoSeleccionadoAux = this.dispositivoSeleccionado;
-             if ($scope.dispositivoSeleccionadoAux.length === 0) {
-                 $('#container').waitMe({
-                     effect: 'pulse',
-                     text: '',
-                     bg: rgba(255, 255, 255, 0.7),
-                     color: '#000',
-                     maxSize: '',
-                     waitTime: -1,
-                     textPos: 'vertical',
-                     fontSize: '',
-                     source: '',
-                     onClose: function () {}
-                 });
-             }
-         } catch (error) {
-             console.log(error.message);
-         }
-     }*/
-
-
     $scope.crearCSVFechas = function() {
         if ($scope.resultReporteFechas.length === 0) {
            const toast = swal.mixin({
