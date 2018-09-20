@@ -378,8 +378,19 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                         $scope.bConsulta = false;
                         if (arrayErrors.length > 0) {
                             swal('Error', 'No se pudieron consultar los siguientes dispositivos: ' + arrayErrors.join(), 'error');
+                            const toast = swal.mixin({
+                                toast: true,
+                                position: 'center',
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
+                            toast({
+                                type: 'success',
+                                title: 'Consulta finalizada.'
+                            });
                         }
-                    })
+                    });
+                    
 
                 }
             }
