@@ -57,7 +57,17 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                     }
 
                 });
-                alert("se cargo el archivo correctamente");
+                //alert("se cargo el archivo correctamente");
+                const toast = swal.mixin({
+                    toast: true,
+                    position: 'center',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+                toast({
+                    type: 'success',
+                    title: 'Se cargo el archivo correctamente.'
+                });
             };
             //reader.readAsBinaryString(f);
             reader.readAsText(f);
@@ -377,19 +387,19 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                     }).catch(err => {
                         $scope.bConsulta = false;
                         if (arrayErrors.length > 0) {
-                            swal('Error', 'No se pudieron consultar los siguientes dispositivos: ' + arrayErrors.join(), 'error');
-                            
-                        }
-                        const toast = swal.mixin({
+                            //swal('Error', 'No se pudieron consultar los siguientes dispositivos: ' + arrayErrors.join(), 'error');
+                             const toast = swal.mixin({
                                 toast: true,
                                 position: 'center',
                                 showConfirmButton: false,
-                                timer: 5000
+                                timer: 10000
                             });
                             toast({
                                 type: 'success',
-                                title: 'Consulta finalizada.'
+                                title: 'Consulta finalizada',
+                                text: '  No se pudieron consultar los siguientes dispositivos :  ' + arrayErrors.join()
                             });
+                        }                        
                     });
                     
 
