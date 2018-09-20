@@ -293,7 +293,8 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                         totalEventos.panicoSuntech = $scope.resultApi[0].panicButtons;
                         totalEventos.llamadas = $scope.resultApi[0].calls;
                         totalEventos.paroMotor = $scope.resultApi[0].Out2;
-                        totalEventos.lastComunicacion = $scope.resultApi[0].lastCommunication;
+                        //totalEventos.lastComunicacion = $scope.resultApi[0].lastCommunication;
+                        totalEventos.lastComunicacion = moment($scope.resultApi[0].lastCommunication).add('hours', -5).format('YYYY-MM-DD HH:mm:ss');
                         totalEventos.phoneNumber = $scope.resultApi[0].phoneNumber;
                         totalEventos.IMEI = $scope.resultApi[0].IMEI;
                         totalEventos.latitude = $scope.resultApi[0].latitude;
