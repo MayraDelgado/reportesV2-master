@@ -310,6 +310,7 @@ app.controller('accesoDatosController', ['$scope', '$filter', '$http', '$mdSelec
                         totalEventos.latitude = $scope.resultApi[0].latitude;
                         totalEventos.longitude = $scope.resultApi[0].longitude;
                         $scope.eventos.push(totalEventos);
+                        console.log("eventosST",totalEventos);
                         //$scope.$apply();
                         resolve();
 
